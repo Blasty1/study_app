@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+      "baseUrl": ".",
+      "paths": {
+        "_assets/*": ["./FrontEnd/assets/*"],
+        "_fonts/*": ["./FrontEnd/assets/fonts/*"],
+        "_images/*": ["./FrontEnd/assets/images/*"],
+        "_components/*": ["./FrontEnd/components/*"],
+        "_navigations/*": ["./FrontEnd/navigations/*"],
+        "_helper/*": ["./FrontEnd/helper/*"],
+        "_config/*": ["./FrontEnd/config/*"],
+        "_structure/*": ["./FrontEnd/structure/*"]
+      }
+    },
+    "exclude": ["node_modules", "dist"]
+}
