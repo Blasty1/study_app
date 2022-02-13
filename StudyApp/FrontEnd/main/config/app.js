@@ -22,6 +22,7 @@ const costanti_globali = {
             'image' : require('_images/ambientazioni/citta.jpg')
         }
     ],
+    'backend_link' : 'http://localhost:3000/',
     'max_time' : 60, //in secondi
 
 }

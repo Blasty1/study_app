@@ -1,10 +1,11 @@
 import { NativeBaseProvider,Flex,Image,Text,extendTheme } from 'native-base'
-import React,{useState} from 'react'
+import React,{useEffect, useState} from 'react'
 import { Dimensions } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import ModalNuovaEtichetta from '_components/ModalNuovaEtichetta';
 import {themeGlobal}  from '_config/style';
 import { getEtichette } from '_helper/etichette';
+import { login } from '../../helper/Auth';
 export default function Main(){
     const [etichette,setEtichette] = useState(getEtichette())
     const [modalNuovaEtichetta,setModalNuovaEtichetta] = useState(false)
@@ -12,6 +13,7 @@ export default function Main(){
         'height' : 100,
         flex : 1
     }
+    useEffect(login,[])
     let flexValueHeader =  0.6
     if( Dimensions.get('window').width > 900)
     {

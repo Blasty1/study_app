@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+      "baseUrl": ".",
+      "paths": {
+        "_assets/*": ["./main/assets/*"],
+        "_fonts/*": ["./main/assets/fonts/*"],
+        "_images/*": ["./main/assets/images/*"],
+        "_components/*": ["./main/components/*"],
+        "_navigations/*": ["./main/navigations/*"],
+        "_helper/*": ["./main/helper/*"],
+        "_config/*": ["./main/config/*"],
+        "_structure/*": ["./main/structure/*"]
+      }
+    },
+    "exclude": ["node_modules", "dist"]
+}
