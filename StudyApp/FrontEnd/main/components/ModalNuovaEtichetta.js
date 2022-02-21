@@ -1,18 +1,34 @@
 import { Modal, Input, FormControl, Button, Center, Text,Flex } from 'native-base'
-import React, { useState } from 'react'
-import CircleSlider from "react-native-circle-slider";
+import React, { useEffect, useState } from 'react'
 import Title from './Title';
 import Icon from 'react-native-vector-icons/Feather';
-import ScrollViewEtichette from './ScrollViewEtichette';
 import costanti_globali from '_config/app';
 import validator from 'validator';
-import { createEtichetta } from '_helper/etichette';
+import { createEtichetta, deleteEtichetta, editEtichetta } from '_helper/etichette';
+import ScrollViewEtichetteModal from './ScrollViewEtichetteModal';
+import CircularSlider from './CircularSlider';
 
-export default function ModalNuovaEtichetta({ setModalNuovaEtichetta, modalNuovaEtichetta }) {
-    const [minutes, setMinutes] = useState(30)
-    const [etichettaScelta,setEtichettaScelta] = useState({'name' : costanti_globali.etichette[0].name, 'id' : costanti_globali.etichette[0].id})
+export default function ModalNuovaEtichetta({ setModalNuovaEtichetta, modalNuovaEtichetta,updateEtichette,etichettaDaModificare,setEtichettaDaModificare }) {
+    const [minutes, setMinutes] = useState(0)
+    const [etichettaScelta,setEtichettaScelta] = useState({})
     const [name,setName] = useState('')
     const [errors,setErrors] = useState({})
+
+
+    function getOldInfo()
+    {
+        if(etichettaDaModificare)
+        {
+            let etichetta = {'name' : costanti_globali.etichette[etichettaDaModificare.id_etichetta].name, 'id' : etichettaDaModificare.id_etichetta }
+            setName(etichettaDaModificare.name)
+            setMinutes(etichettaDaModificare.minuti)
+            setEtichettaScelta(etichetta)
+        }else{
+            setMinutes(1)
+            setEtichettaScelta({'name' : costanti_globali.etichette[0].name, 'id' : costanti_globali.etichette[0].id})
+        }
+    }
+    useEffect(getOldInfo,[etichettaDaModificare])
 
     function checkDataToSubmit(name,minutes,etichettaScelta,setErrors)
     {
@@ -36,11 +52,11 @@ export default function ModalNuovaEtichetta({ setModalNuovaEtichetta, modalNuova
     }
 
     return (
-        <Modal isOpen={modalNuovaEtichetta} onClose={() => setModalNuovaEtichetta(false)} >
-            <Modal.Content width="90%" maxHeight={'95%'} background={'ten.100'} m={0} p={0}>
+        <Modal isOpen={modalNuovaEtichetta ? true : false} onClose={() =>{ setModalNuovaEtichetta(false); etichettaDaModificare ? setEtichettaDaModificare(null) : null}} >
+            <Modal.Content maxWidth="90%" width={"90%"} maxHeight={'95%'} background={'ten.100'} m={0} p={0}>
                 <Modal.Header flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'}>
-                    <Title title="Nuovo Percorso" fontSize='2xl'></Title>
-                    <Icon name='x' color={'white'} size={30} onPress={() => { setModalNuovaEtichetta(false) }}></Icon>
+                    <Title title={ etichettaDaModificare ? 'Modifica percorso' : 'Nuovo percorso'} fontSize='2xl'></Title>
+                    <Icon name='x' color={'white'} size={30} onPress={() => { setModalNuovaEtichetta(false); etichettaDaModificare ? setEtichettaDaModificare(null) : null}}></Icon>
                 </Modal.Header>
                 <Modal.Body>
                     <Flex flex={0.5}>
@@ -61,28 +77,45 @@ export default function ModalNuovaEtichetta({ setModalNuovaEtichetta, modalNuova
                             }
                             <Center>
                                 <Text style={{ 'position': 'absolute', 'top': '45%' }} color={'white'}>{minutes + ' Minuti'}</Text>
-                                
-                                <CircleSlider meterColor={'#CC4331'} textColor={'#CC4331'} value={minutes} btnRadius={20} dialRadius={80} textSize={0} min={0} max={360} strokeWidth={10} dialWidth={9} onValueChange={(value) => { setMinutes(value); return '' }} />
+                                <CircularSlider width={200} height={200} meterColor='#CC4331' textColor='#CC4331'
+                                     value={minutes * 4} onValueChange={(value) => setMinutes(Math.ceil(value/4))}/>
                             </Center>
                         </FormControl>
                     </Flex>
                     <Flex flex={0.5}>
-                        <ScrollViewEtichette isModalOpen = {modalNuovaEtichetta} etichettaScelta={etichettaScelta} setEtichettaScelta={setEtichettaScelta} etichetteDaMostrare={costanti_globali.etichette}></ScrollViewEtichette>
+                        <ScrollViewEtichetteModal isModalOpen = {modalNuovaEtichetta} etichettaScelta={etichettaScelta} setEtichettaScelta={setEtichettaScelta} etichetteDaMostrare={costanti_globali.etichette}></ScrollViewEtichetteModal>
                         {
                             'etichette' in errors ? <FormControl.ErrorMessage>{errors.etichette}</FormControl.ErrorMessage> : null
                         }     
                     </Flex>
                 </Modal.Body>
                 <Modal.Footer background={'ten.100'}>
-                    <Center flex={1}>
-                        <Button width="50%" bgColor={'ten.500'} onPress={function(){
+                    <Center flex={1} flexDirection={'row'} justifyContent='space-around'>
+                        {etichettaDaModificare &&
+                        <Button
+                        width={'35%'} bgColor={'ten.500'} onPress={
+                            function()
+                            {
+                                setModalNuovaEtichetta(false);
+                                deleteEtichetta(etichettaDaModificare).then(values => updateEtichette(values)).catch(error => console.log(error))
+                            }
+                        }>
+                            Elimina
+                        </Button>
+                    }
+                        <Button width="60%" bgColor={'ten.500'} onPress={function(){
                             if(!checkDataToSubmit(name,minutes,etichettaScelta,setErrors))
                             {
-                                createEtichetta(name,minutes,etichettaScelta).then(value => console.log(value)).catch(error => console.log(error))
+                                setModalNuovaEtichetta(false);
+                                if(etichettaDaModificare)
+                                {
+                                    editEtichetta(etichettaDaModificare.id,name,minutes,etichettaScelta).then(values => updateEtichette(values)).catch(error => console.log(error))
+                                }else{       
+                                    createEtichetta(name,minutes,etichettaScelta).then(values => updateEtichette(values)).catch(error => console.log(error))
+                                }
                                 setName('')
                                 setMinutes(30)
                                 setEtichettaScelta({'name' : costanti_globali.etichette[0].name, 'id' : costanti_globali.etichette[0].id})
-                                setModalNuovaEtichetta(false);
 
                             }
                         }}>

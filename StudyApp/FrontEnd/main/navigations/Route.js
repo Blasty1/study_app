@@ -5,6 +5,8 @@ import Home from '_structure/Home/index.js'
 import Main from '_structure/Main/index.js'
 import { TransitionPresets } from '@react-navigation/stack';
 import {SSRProvider} from '@react-aria/ssr'; 
+import Percorso from '_structure/Percorso';
+
 export default function Route() {
     const Stack = createStackNavigator();
 
@@ -16,6 +18,10 @@ export default function Route() {
                  headerShown: false,
                 }}/>
           <Stack.Screen name='Main' component={Main} options={{
+                 headerShown: false,
+                 ...TransitionPresets.ModalSlideFromBottomIOS,
+                }}></Stack.Screen>
+          <Stack.Screen name='Percorso' component={Percorso} options={{
                  headerShown: false,
                  ...TransitionPresets.ModalSlideFromBottomIOS,
                 }}></Stack.Screen>

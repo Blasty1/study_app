@@ -1,9 +1,9 @@
-import { Image, FlatList, Text, Box, Pressable } from "native-base";
+import { Center, FlatList, Text, Box, Pressable } from "native-base";
 import React, { useState } from "react";
 import { Platform } from "react-native";
 import Etichetta from "./Etichetta";
 
-export default class ScrollViewEtichette extends React.Component {
+export default class ScrollViewEtichetteModal extends React.Component {
 
     constructor() {
         super()
@@ -12,7 +12,7 @@ export default class ScrollViewEtichette extends React.Component {
     }
     state = {
         bordiImmagineSelezionata: [
-            { borderColor: '#CC4331' },
+            { borderColor: 'white' },
             { borderColor: 'white' },
             { borderColor: 'white' },
             { borderColor: 'white' }
@@ -20,13 +20,18 @@ export default class ScrollViewEtichette extends React.Component {
     }
     componentDidMount()
     {
+        this.changeValue(this.props.etichettaScelta)
         setTimeout(() => this.FlatList.current.scrollToEnd() , 1000)
         setTimeout(() => this.FlatList.current.scrollToIndex({index : 0,animated : true}) , 2000)
     }
     
     componentDidUpdate(prevProps)
     {
-        if((prevProps.isModalOpen == false && this.props.isModalOpen == true ) || (prevProps.isModalOpen == null))
+        if(this.props.etichettaScelta.id != prevProps.etichettaScelta.id)
+        {
+            this.changeValue(this.props.etichettaScelta)
+        }
+        if((!prevProps.isModalOpen  && this.props.isModalOpen ))
         {
             setTimeout(() => this.FlatList.current.scrollToEnd() , 1000)
             setTimeout(() => this.FlatList.current.scrollToIndex({index : 0,animated : true}) , 2000)
@@ -56,10 +61,12 @@ export default class ScrollViewEtichette extends React.Component {
         return (
             <Box>
                 <Text color={'white'}>Scegli il percorso: {this.props.etichettaScelta.name} </Text>
-                <FlatList flex={1} ref={this.FlatList} horizontal data={this.props.etichetteDaMostrare} showsHorizontalScrollIndicator={Platform.OS == 'web' ? true : false} renderItem={({
-                    item
-                }) => <Etichetta etichettaSelezionata={this.changeValue} etichetta={item} borderColor = {this.state.bordiImmagineSelezionata[item.id].borderColor} ></Etichetta>
-                } keyExtractor={item => item.name} />
+                <Center>
+                    <FlatList flex={1} ref={this.FlatList} horizontal data={this.props.etichetteDaMostrare} showsHorizontalScrollIndicator={Platform.OS == 'web' ? true : false} renderItem={({
+                        item
+                    }) => <Etichetta etichettaSelezionata={this.changeValue} etichetta={item} borderColor = {this.state.bordiImmagineSelezionata[item.id].borderColor} ></Etichetta>
+                    } keyExtractor={item => item.name} />
+                </Center>
             </Box>
         );
     }

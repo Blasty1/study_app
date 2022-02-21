@@ -9,8 +9,13 @@ dotenv.config();
 
 var indexRouter = require('./routes/index');
 var authsRouter = require('./routes/auth');
+var percorsoRouter = require('./routes/percorso')
 
 var app = express();
+
+
+//timezone
+process.env.TZ = "Europe/Rome";
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -31,7 +36,7 @@ app.use(function (req, res, next) {
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
 
   // Request headers you wish to allow
-  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type,Authorization');
 
   // Set to true if you need the website to include cookies in the requests sent
   // to the API (e.g. in case you use sessions)
@@ -43,6 +48,7 @@ app.use(function (req, res, next) {
 
 app.use('/', indexRouter);
 app.use('/auth', authsRouter);
+app.use('/percorso',percorsoRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

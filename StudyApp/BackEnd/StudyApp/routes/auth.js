@@ -1,12 +1,13 @@
 var express = require('express');
-const  AuthController  = require('../Controller/Auth');
+const AuthController = require('../Controllers/Auth');
 var router = express.Router();
 
 
 /* GET users listing. */
-router.post('/registration', function(req, res, next) {
+router.post('/login', function(req, res, next) {
     const auth = new AuthController
-    res.json(auth.registration(req.body.deviceID))
+    auth.login(req.body.deviceID).then(() => res.json(auth.jwt()))
+    
 });
 
 module.exports = router;

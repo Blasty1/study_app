@@ -13,7 +13,11 @@ export const themeGlobal = {
         },
         ten : {
             100 : '#fda544', //arancione home
-            500 : '#CC4331' //rosso main
+            500 : '#CC4331', //rosso main
+        },
+        progress : {
+            200 : 'transparent',
+            600 : '#70DFCE' // verde acqua
         }
 
         

@@ -1,13 +1,8 @@
 const mysql = require("mysql2")
 
 class Database{
-    constructor()
-    {
-        //puntatore al DB
-        this.conn = this.connection()
-    }
 
-    connection()
+    db()
     {
         let conn = mysql.createConnection({
             host: process.env.HOST,
@@ -19,10 +14,6 @@ class Database{
         
         conn.connect()
         return conn
-    }
-    close()
-    {
-        this.conn.end()
     }
     
    
