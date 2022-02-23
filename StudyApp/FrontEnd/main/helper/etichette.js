@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import costanti_globali from '_config/app';
 import { Dimensions } from "react-native";
 
-function getImageEtichette(etichette)
+function getImageAndSoundEtichette(etichette)
 {
     for (let etichettaPersonalizzata of etichette)
     {
@@ -12,6 +12,7 @@ function getImageEtichette(etichette)
             {
                 etichettaPersonalizzata.image = etichetta.image
                 etichettaPersonalizzata.image_gif = etichetta.image_gif
+                etichettaPersonalizzata.sound = etichetta.sound
             }
         }
 
@@ -47,7 +48,7 @@ async function deleteEtichetta(etichettaDaEliminare)
     {
         console.log(error)
     }
-    return getImageEtichette(etichette)
+    return getImageAndSoundEtichette(etichette)
 }
 
 async function getEtichette()
@@ -59,7 +60,7 @@ async function getEtichette()
         return []
     }
     
-    return getImageEtichette(jsonValue)
+    return getImageAndSoundEtichette(jsonValue)
     
 }
 
@@ -92,7 +93,7 @@ async function editEtichetta(idEtichettaPersonalizzata,name,minutes,etichettaSce
     {
         console.log(error)
     }
-    return getImageEtichette(etichette_aggiornate)
+    return getImageAndSoundEtichette(etichette_aggiornate)
 
 }
 
@@ -118,7 +119,7 @@ async function createEtichetta(name,minutes,etichettaScelta)
     {
         console.log(error)
     }
-    return getImageEtichette(etichette_aggiornate)
+    return getImageAndSoundEtichette(etichette_aggiornate)
 }
 const etichetta_dimensioni = () =>
 {

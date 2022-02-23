@@ -24,7 +24,7 @@ export default function ModalNuovaEtichetta({ setModalNuovaEtichetta, modalNuova
             setMinutes(etichettaDaModificare.minuti)
             setEtichettaScelta(etichetta)
         }else{
-            setMinutes(1)
+            setMinutes(30)
             setEtichettaScelta({'name' : costanti_globali.etichette[0].name, 'id' : costanti_globali.etichette[0].id})
         }
     }
@@ -119,7 +119,7 @@ export default function ModalNuovaEtichetta({ setModalNuovaEtichetta, modalNuova
 
                             }
                         }}>
-                            Save
+                            Salva
                         </Button>
                     </Center>
                 </Modal.Footer>

@@ -32,7 +32,7 @@ export default function Main({navigation}){
         <Flex flex={1} overflow={'hidden'}>
             <Flex flex={0.5}>
                 <Flex flex={1 - flexValueHeader} background={'sixty.600'} pl={2} direction="row" pt={9} justify={'space-between'}>
-                    <Icon name='settings' color={'white'}  size={40}></Icon>
+                    <Icon name='settings' color={'white'}  size={40} onPress={() => navigation.navigate('Impostazioni')}></Icon>
                     <Text fontSize="5xl"  color={'white'} mt={10} fontFamily="Rowdies" >FocuStudy</Text>
                     <Icon name='bar-chart' color={'white'} size={40}></Icon>
                 </Flex>

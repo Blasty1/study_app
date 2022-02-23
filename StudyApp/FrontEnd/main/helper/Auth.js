@@ -63,7 +63,7 @@ async function getTokenFromBackEnd()
         throw new Error(message);
     }
     const tokenJWT = await response.json()
-    return JSON.stringify({ token : tokenJWT, created_at : Date.now() } )
+    return { token : tokenJWT, created_at : Date.now() } 
     
 }
 
@@ -76,7 +76,7 @@ async function login()
     if( !tokenJWT )
     {
         tokenJWT = await getTokenFromBackEnd()
-        await AsyncStorage.setItem('tokenJWT',tokenJWT)
+        await AsyncStorage.setItem('tokenJWT',JSON.stringify(tokenJWT))
     }
     return tokenJWT
     

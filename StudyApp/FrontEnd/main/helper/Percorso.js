@@ -63,11 +63,17 @@ async function getPercorsoLocally(idPercorsoPersonalizzato, idPercorsoEffettuato
 
 }
 
+/**
+ * Otteniamo tutti i percorsi salvati localmente
+ * @returns {string}
+ */
 async function getAllPercorsiLocally() {
     return await AsyncStorage.getItem('percorsi') ?? JSON.stringify([])
 }
 
-
+/**
+ * Eliminiamo tutti i percorsi salvati localmente
+ */
 async function deleteLocally() {
     try{
         await AsyncStorage.removeItem('percorsi')
@@ -77,10 +83,13 @@ async function deleteLocally() {
     
 }
 
-
+/**
+ * 
+ * Mandiamo i percorsi al database dove vengono salvati e se non ci sono errori vengono eliminati sul device dell'utente
+ */
 async function savePercorso() {
-    const percorsiDaSalvareSulDatabase = await getAllPercorsiLocally()
-    const tokenJWT = await login()
+    let percorsiDaSalvareSulDatabase = await getAllPercorsiLocally()
+    let tokenJWT = await login()
     
     const response = await fetch(costanti_globali.backend_link + 'percorso/store', {
         method: 'POST',
@@ -100,7 +109,7 @@ async function savePercorso() {
         if( response.status == 409 )
         {
             //il token viene rimosso in quanto non è più utile, deve essere aggiornato
-            AsyncStorage.removeItem('tokenJWT')
+            await AsyncStorage.removeItem('tokenJWT')
             return await savePercorso()
         }
 
@@ -114,4 +123,4 @@ async function savePercorso() {
 
 }
 
-export { saveLocally, savePercorso,deleteLocally };
+export { saveLocally, savePercorso };

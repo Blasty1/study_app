@@ -6,8 +6,9 @@ import { themeGlobal } from "_config/style";
 import { getSizeGif } from "_helper/etichette";
 import { FirstCapitalize } from "_helper/Str";
 import { v4 } from 'uuid';
-import { deleteLocally, saveLocally, savePercorso } from "_helper/Percorso";
-
+import { saveLocally, savePercorso } from "_helper/Percorso";
+import { Audio } from 'expo-av';
+import { allowOrDenySound, startSound, stopSound, checkIfUserWantsSound } from "_helper/Sound";
 
 export default function Percorso({ route, navigation }) {
     const [timer, setTimer] = useState(0)
@@ -15,7 +16,28 @@ export default function Percorso({ route, navigation }) {
     const [idInterval, setIdInterval] = useState(null)
     const buttonStartTimer = useRef()
     const [idPercorso,]= useState(v4())
+    const [thereIsMusic,setMusic]  = useState(() => checkIfUserWantsSound())
+    const [sound, setSound] = useState();
 
+    useEffect(async function()
+    {
+        if(thereIsMusic && await checkIfUserWantsSound())
+        {
+            const { sound }  = await Audio.Sound.createAsync(route.params.etichetta.sound);
+            setSound(sound)
+            await sound.setIsLoopingAsync(true)
+        }
+    },thereIsMusic)
+    
+    //check if there are errors for sound
+    useEffect(() => {
+        return sound
+          ? () => {
+              console.log('Unloading Sound');
+              sound.unloadAsync(); }
+          : undefined;
+      }, [sound]);
+  
     function stopTimer() {
         if (timer == route.params.etichetta.minuti) {
             clearInterval(idInterval)
@@ -23,28 +45,29 @@ export default function Percorso({ route, navigation }) {
             Vibration.vibrate()
             getStarted(!isStarted)
             setTimeout(() => {setTimer(0) },10000)
-
+            stopSound(thereIsMusic,sound)
         }
-    }
 
+    }
+    
     useEffect(stopTimer, [timer])
     function startTimer() {
-        getStarted(!isStarted)
-
         if(timer == route.params.etichetta.minuti)
         {
             setTimer(0)
         }
         function addingMinutes() {
-            setTimer((timer) => {saveLocally(route.params.etichetta,timer + 0.5,idPercorso).then().catch(error => console.log(error)); console.log(timer); return (timer + 0.5)})
+            setTimer((timer) => {saveLocally(route.params.etichetta,timer + 0.5,idPercorso).then().catch(error => console.log(error)); return (timer + 0.5)})
         }
         if (!isStarted) {
+            startSound(thereIsMusic,sound)
             //update timer each 0.5 minute 30000
             setIdInterval(setInterval(() => addingMinutes(), 30000))
         } else {
+            stopSound(thereIsMusic,sound)
             clearInterval(idInterval)
         }
-        return  getStarted(!isStarted)
+        getStarted(!isStarted)
 
     }
     return <NativeBaseProvider theme={extendTheme(themeGlobal)}>
@@ -74,7 +97,7 @@ export default function Percorso({ route, navigation }) {
             <Flex flex={0.3} px={2}>
                 <Flex flex={0.5} direction="row" alignItems={'flex-end'} justifyContent={'space-between'}>
                     <Icon name='chevron-left' size={40} color={'white'} onPress={() => navigation.navigate('Main')}></Icon>
-                    <Icon name='volume-1' size={40} color={'white'}></Icon>
+                    <Icon name={ thereIsMusic ? 'volume-1' : 'volume-x'} size={40} color={'white'} onPress={() => allowOrDenySound(thereIsMusic,setMusic,sound)} ></Icon>
                 </Flex>
                 <Flex flex={0.5} alignItems={'center'} justifyContent='center'>
                     <Text maxWidth={'100%'} isTruncated={true} fontSize={40} fontFamily="Rowdies" color={'white'}>{FirstCapitalize(route.params.etichetta.name)}</Text>
@@ -89,7 +112,7 @@ export default function Percorso({ route, navigation }) {
                     </Flex>
                     <Progress key={timer} min={0} max={route.params.etichetta.minuti} size="xl" colorScheme="progress" borderColor={'white'} borderWidth={1} value={timer} />
                 </Box>
-                <Button ref={buttonStartTimer} borderRadius="md" shadow={'3'} height='10%' width="60%" background={'sixty.600'} onPress={startTimer}><Text fontSize="xl" color={'white'} fontFamily="Rowdies">{ timer == 0 ? 'Inizia' :   ( timer == route.params.etichetta.minuti ?  'Ricomincia percorso' : ( isStarted ? 'Stop' : 'Continua' ) )}</Text></Button>
+                <Button ref={buttonStartTimer} borderRadius="md" shadow={'3'} height='10%' width="60%" background={'sixty.600'} onPress={startTimer}><Text fontSize="xl" color={'white'} fontFamily="Rowdies">{ timer == 0 && !isStarted ? 'Inizia' :   ( timer == route.params.etichetta.minuti ?  'Ricomincia percorso' : ( isStarted ? 'Stop' : 'Continua' ) )}</Text></Button>
 
             </Flex>
 
