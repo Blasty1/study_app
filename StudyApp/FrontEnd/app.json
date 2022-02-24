@@ -8,6 +8,9 @@
     ],
     "android": {
       "package": "com.bryan2028.StudyApp"
+    },
+    "ios": {
+      "bundleIdentifier": "com.bryan2028.StudyApp"
     }
   },
   "name": "StudyApp"

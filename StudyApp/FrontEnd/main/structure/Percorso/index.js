@@ -8,7 +8,7 @@ import { FirstCapitalize } from "_helper/Str";
 import { v4 } from 'uuid';
 import { saveLocally, savePercorso } from "_helper/Percorso";
 import { Audio } from 'expo-av';
-import { allowOrDenySound, startSound, stopSound, checkIfUserWantsSound } from "_helper/Sound";
+import { allowOrDenySound, startSound, stopSound, checkIfUserWantsSound, checkIfUserWantsVibration } from "_helper/Sound";
 
 export default function Percorso({ route, navigation }) {
     const [timer, setTimer] = useState(0)
@@ -38,11 +38,14 @@ export default function Percorso({ route, navigation }) {
           : undefined;
       }, [sound]);
   
-    function stopTimer() {
+      async function stopTimer() {
         if (timer == route.params.etichetta.minuti) {
             clearInterval(idInterval)
             savePercorso()
-            Vibration.vibrate()
+            if(await checkIfUserWantsVibration())
+            {
+                Vibration.vibrate()
+            }
             getStarted(!isStarted)
             setTimeout(() => {setTimer(0) },10000)
             stopSound(thereIsMusic,sound)

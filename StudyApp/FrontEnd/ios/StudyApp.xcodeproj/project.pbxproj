@@ -15,6 +15,7 @@
 		96905EF65AED1B983A6B3ABC /* libPods-StudyApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58EEBF8E8E6FB1BC6CAF49B5 /* libPods-StudyApp.a */; };
 		B18059E884C0ABDD17F3DC3D /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC715A2D49A985799AEE119 /* ExpoModulesProvider.swift */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
+		8F9C6E90A5E2451AAA610933 /* noop-file.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D7165FA377748F38C30E127 /* noop-file.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +34,8 @@
 		BB2F792C24A3F905000567C9 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		FAC715A2D49A985799AEE119 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-StudyApp/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
+		3D7165FA377748F38C30E127 /* noop-file.swift */ = {isa = PBXFileReference; name = "noop-file.swift"; path = "StudyApp/noop-file.swift"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.swift; explicitFileType = undefined; includeInIndex = 0; };
+		0F2915CADC2447FB823EA547 /* StudyApp-Bridging-Header.h */ = {isa = PBXFileReference; name = "StudyApp-Bridging-Header.h"; path = "StudyApp/StudyApp-Bridging-Header.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +61,8 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB71A68108700A75B9A /* main.m */,
 				AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */,
+				3D7165FA377748F38C30E127 /* noop-file.swift */,
+				0F2915CADC2447FB823EA547 /* StudyApp-Bridging-Header.h */,
 			);
 			name = StudyApp;
 			sourceTree = "<group>";
@@ -200,6 +205,7 @@
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */,
 				3254497E27C54EB5002CAA02 /* collina.mp3 in Resources */,
+				52BEB65C72A645B5A760F608 /* StudyApp-Bridging-Header.h in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -323,6 +329,7 @@
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 				B18059E884C0ABDD17F3DC3D /* ExpoModulesProvider.swift in Sources */,
+				8F9C6E90A5E2451AAA610933 /* noop-file.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -349,11 +356,14 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.name.StudyApp;
-				PRODUCT_NAME = StudyApp;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.bryan2028.StudyApp";
+				PRODUCT_NAME = "StudyApp";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
+				TARGETED_DEVICE_FAMILY = "1";
+				SWIFT_OBJC_BRIDGING_HEADER = StudyApp/StudyApp-Bridging-Header.h;
+				CODE_SIGN_ENTITLEMENTS = "StudyApp/StudyApp.entitlements";
 			};
 			name = Debug;
 		};
@@ -372,10 +382,13 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.name.StudyApp;
-				PRODUCT_NAME = StudyApp;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.bryan2028.StudyApp";
+				PRODUCT_NAME = "StudyApp";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
+				TARGETED_DEVICE_FAMILY = "1";
+				SWIFT_OBJC_BRIDGING_HEADER = StudyApp/StudyApp-Bridging-Header.h;
+				CODE_SIGN_ENTITLEMENTS = "StudyApp/StudyApp.entitlements";
 			};
 			name = Release;
 		};
@@ -433,6 +446,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				CODE_SIGN_ENTITLEMENTS = "StudyApp/StudyApp.entitlements";
 			};
 			name = Debug;
 		};
@@ -483,6 +497,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
+				CODE_SIGN_ENTITLEMENTS = "StudyApp/StudyApp.entitlements";
 			};
 			name = Release;
 		};

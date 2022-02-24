@@ -13,11 +13,14 @@ export default function Impostazioni({ navigation }) {
 
     useEffect(async function()
         {
-            setMusic(await checkIfUserWantsSound())
             setVibrazione(await checkIfUserWantsVibration())
         },[])
+    useEffect(async function()
+    {
+        setMusic(await checkIfUserWantsSound())
+    },[])
+    useEffect(async () =>changeVibrationPreferenze(vibrazione),[vibrazione])
     useEffect(async () =>changeMusicPreferenze(music),[music])
-    useEffect(async () => changeVibrationPreferenze(vibrazione) ,[vibrazione])
     return (
         <NativeBaseProvider theme={extendTheme(themeGlobal)}>
             <Flex flex={1} background={'ten.100'}>
@@ -36,11 +39,11 @@ export default function Impostazioni({ navigation }) {
                                 </Flex>
                                 <Flex mt={2} flexDirection={'row'} justifyContent='space-between' alignItems={'center'}>
                                     <Text color={'white'} fontSize={18}>Vibrazione</Text>
-                                    <Switch isChecked={vibrazione} onToggle={ () => setVibrazione(!vibrazione)}  offTrackColor="white" borderColor='white' onTrackColor="ten.500" onThumbColor="white" offThumbColor="ten.500" defaultIsChecked={true} size='lg'></Switch>
+                                    <Switch isChecked={vibrazione} onToggle={ () => setVibrazione(!vibrazione)}  offTrackColor="white" borderColor='white' onTrackColor="ten.500" onThumbColor="white" offThumbColor="ten.500" size='lg'></Switch>
                                 </Flex>
                                 <Flex mt={2} flexDirection={'row'} justifyContent='space-between' alignItems={'center'}>
                                     <Text color={'white'} fontSize={18}>Modalità Intesiva</Text>
-                                    <Switch defaultIsChecked={intensiva}  offTrackColor="white" borderColor='white' onTrackColor="ten.500" onThumbColor="white" offThumbColor="ten.500" defaultIsChecked={true} size='lg'></Switch>
+                                    <Switch defaultIsChecked={intensiva}  offTrackColor="white" borderColor='white' onTrackColor="ten.500" onThumbColor="white" offThumbColor="ten.500"  size='lg'></Switch>
                                 </Flex>
                             </Box>
                         </Box>

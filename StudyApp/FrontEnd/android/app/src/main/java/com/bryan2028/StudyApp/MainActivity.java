@@ -1,4 +1,4 @@
-package com.studyapp;
+package com.bryan2028.StudyApp;
 
 import android.os.Build;
 import android.os.Bundle;
