@@ -7,30 +7,10 @@ import { TransitionPresets } from '@react-navigation/stack';
 import { SSRProvider } from '@react-aria/ssr';
 import Percorso from '_structure/Percorso';
 import Impostazioni from '_structure/Impostazioni';
-import { AppState } from 'react-native';
 
 export default function Route() {
   const Stack = createStackNavigator();
-    const appState = React.useRef(AppState.currentState);
-    const [appStateVisible, setAppStateVisible] = React.useState(appState.current);
-  
-    React.useEffect(() => {
-      const subscription = AppState.addEventListener("change", nextAppState => {
-        if (
-          appState.current.match(/inactive|background/) &&
-          nextAppState != "active"
-        ) {
-          console.log("Ddfdd");
-        }
-        appState.current = nextAppState;
-        setAppStateVisible(appState.current);
-        
-      });
-  
-      return () => {
-        subscription.remove();
-      };
-    }, []);
+
   return (
     <SSRProvider>
       <NavigationContainer>

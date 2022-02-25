@@ -10,7 +10,12 @@
       "package": "com.bryan2028.StudyApp"
     },
     "ios": {
-      "bundleIdentifier": "com.bryan2028.StudyApp"
+      "bundleIdentifier": "com.bryan2028.StudyApp",
+      "infoPlist": {
+        "UIBackgroundModes": [
+          "audio"
+        ]
+      }
     }
   },
   "name": "StudyApp"

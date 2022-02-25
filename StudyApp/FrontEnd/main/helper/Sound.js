@@ -87,7 +87,6 @@ async function checkIfUserWantsVibration()
  */
  async function changeVibrationPreferenze(isVibrationActived)
  {
-     console.log(isVibrationActived)
      if(isVibrationActived != await checkIfUserWantsVibration)
      {
          await AsyncStorage.setItem('vibration',JSON.stringify(isVibrationActived))

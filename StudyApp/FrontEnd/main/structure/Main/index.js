@@ -15,7 +15,6 @@ export default function Main({navigation}){
     const [modalNuovaEtichetta,setModalNuovaEtichetta] = useState(false)
     const [opzioneModifica, setOpzioneModifica] = useState(false)
     const [etichettaDaModificare,setEtichettaDaModificare] = useState('')
-
     const styleImage = {
         'height' : 100,
         flex : 1
@@ -31,10 +30,10 @@ export default function Main({navigation}){
     <NativeBaseProvider theme={extendTheme(themeGlobal)}>
         <Flex flex={1} overflow={'hidden'}>
             <Flex flex={0.5}>
-                <Flex flex={1 - flexValueHeader} background={'sixty.600'} pl={2} direction="row" pt={9} justify={'space-between'}>
-                    <Icon name='settings' color={'white'}  size={40} onPress={() => navigation.navigate('Impostazioni')}></Icon>
-                    <Text fontSize="5xl"  color={'white'} mt={10} fontFamily="Rowdies" >FocuStudy</Text>
-                    <Icon name='bar-chart' color={'white'} size={40}></Icon>
+                <Flex flex={1 - flexValueHeader} background={'sixty.600'} pl={2} direction="row" pt={9} justify={'space-between'} alignItems='center'>
+                    <Icon name='settings' color={'white'}  size={35} onPress={() => navigation.navigate('Impostazioni')}></Icon>
+                    <Text fontSize="5xl"  color={'white'} fontFamily="Rowdies" >FocuStudy</Text>
+                    <Icon name='bar-chart' color={'white'} size={35}></Icon>
                 </Flex>
                 <Flex flex={flexValueHeader}>
                     <Image source={require('_images/main.jpg')} alt={'Background'} style={styleImage}></Image>

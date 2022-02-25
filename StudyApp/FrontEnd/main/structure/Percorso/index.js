@@ -1,6 +1,6 @@
 import { Flex, NativeBaseProvider, Image, Text, extendTheme, Progress, Box, VStack, Button, Alert, Slide } from "native-base";
 import { useEffect, useRef, useState } from "react";
-import { Vibration } from "react-native";
+import { Vibration, AppState, Platform } from "react-native";
 import Icon from 'react-native-vector-icons/Feather';
 import { themeGlobal } from "_config/style";
 import { getSizeGif } from "_helper/etichette";
@@ -9,6 +9,9 @@ import { v4 } from 'uuid';
 import { saveLocally, savePercorso } from "_helper/Percorso";
 import { Audio } from 'expo-av';
 import { allowOrDenySound, startSound, stopSound, checkIfUserWantsSound, checkIfUserWantsVibration } from "_helper/Sound";
+import { isModalitaIntensivaActived } from "_helper/ModalitaIntensiva";
+import * as Notifications from "expo-notifications";
+
 
 export default function Percorso({ route, navigation }) {
     const [timer, setTimer] = useState(0)
@@ -17,8 +20,71 @@ export default function Percorso({ route, navigation }) {
     const buttonStartTimer = useRef()
     const [idPercorso,]= useState(v4())
     const [thereIsMusic,setMusic]  = useState(() => checkIfUserWantsSound())
-    const [sound, setSound] = useState();
+    const [sound, setSound] = useState(); 
+    const timerActives = useRef(false)
+    const appState = useRef(AppState.currentState);
+    const soundModalitaIntensiva = useRef()
 
+    if(Platform.OS == 'ios' || Platform.OS == 'android')
+    {
+        
+        useEffect(async function()
+        {
+          if(await isModalitaIntensivaActived())
+          {
+            timerActives.current = isStarted
+          }
+        },[isStarted])
+        useEffect(() => {
+        const subscription = AppState.addEventListener("change",async (nextAppState) => {
+            if(nextAppState == 'active')
+            {
+                await stopSound(soundModalitaIntensiva.current,soundModalitaIntensiva.current)
+    
+            }
+            console.log('prima: ' + appState.current,'dopo: ' + nextAppState)
+            if ( appState.current == 'active' && nextAppState != "active") 
+            {
+                if(await isModalitaIntensivaActived() && timerActives.current)
+                {
+                    await Notifications.scheduleNotificationAsync({
+                        content: {
+                          title: "Torna a studiare",
+                          body: 'Non ti distrarre, torna a concentarti',
+                        },
+                        trigger: { seconds: 2 },
+                    })
+                    if(!soundModalitaIntensiva.current)
+                    {
+                        await Audio.setAudioModeAsync({
+                            staysActiveInBackground: true,
+                            interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
+                            shouldDuckAndroid: false,
+                            playThroughEarpieceAndroid: false,
+                            allowsRecordingIOS: false,
+                            interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
+                            playsInSilentModeIOS: true,
+                          });
+                        const {sound} = await Audio.Sound.createAsync(require('_assets/sounds/modalita_intensiva.mp3'))
+                        soundModalitaIntensiva.current = sound
+                        await soundModalitaIntensiva.current.setIsLoopingAsync(true)
+                    }      
+                    await startSound(soundModalitaIntensiva.current,soundModalitaIntensiva.current)
+                }
+
+            }
+            
+           
+            appState.current = nextAppState;
+            
+        });
+        return () => subscription.remove()
+        }, []);
+    }
+
+
+ 
+  
     useEffect(async function()
     {
         if(thereIsMusic && await checkIfUserWantsSound())
@@ -69,6 +135,7 @@ export default function Percorso({ route, navigation }) {
         } else {
             stopSound(thereIsMusic,sound)
             clearInterval(idInterval)
+            stopSound(soundModalitaIntensiva.current,soundModalitaIntensiva.current)
         }
         getStarted(!isStarted)
 
@@ -92,14 +159,14 @@ export default function Percorso({ route, navigation }) {
                                 color: "coolGray.600"
                             }
                         }}>
-                            <Text textAlign={'center'}>Complimenti per aver portato a termine una parte del tuo viaggio</Text>
+                            <Text textAlign={'center'}>Complimenti per essere stato concentrato per {route.params.etichetta.minuti} minuti</Text>
                         </Box>
                     </VStack>
                 </Alert>
             </Slide>
             <Flex flex={0.3} px={2}>
                 <Flex flex={0.5} direction="row" alignItems={'flex-end'} justifyContent={'space-between'}>
-                    <Icon name='chevron-left' size={40} color={'white'} onPress={() => navigation.navigate('Main')}></Icon>
+                    <Icon name='chevron-left' size={40} color={'white'} onPress={() =>{ getStarted(false); navigation.navigate('Main')}}></Icon>
                     <Icon name={ thereIsMusic ? 'volume-1' : 'volume-x'} size={40} color={'white'} onPress={() => allowOrDenySound(thereIsMusic,setMusic,sound)} ></Icon>
                 </Flex>
                 <Flex flex={0.5} alignItems={'center'} justifyContent='center'>
