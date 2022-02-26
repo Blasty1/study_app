@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "FocusStudy",
-    "slug": "FocusStudy",
+    "name": "StudyApp",
+    "slug": "StudyApp",
     "version": "1.0.0",
     "icon" : "./main/assets/images/icons/icona.png",
     "notification":{
