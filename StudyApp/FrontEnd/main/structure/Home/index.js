@@ -9,7 +9,7 @@ import {
     Button,
   } from 'native-base';
 import {themeGlobal} from '_config/style';
-import { Dimensions } from 'react-native';
+import { Dimensions, Pressable } from 'react-native';
 
 export default function Home({navigation})
 {
@@ -39,6 +39,7 @@ export default function Home({navigation})
             </Center>
             <Flex flex={0.6}>
                 <Image  source={require('_images/home.jpg')} alt={'Background'} style={styleImage}></Image>
+                <Pressable onPress={() => navigation.navigate('Condizioni')} style={{position : 'absolute' , bottom : 15 , right : 5}}><Text color='white' fontSize={9}>Terms And Conditions ( Privacy Policy ) </Text></Pressable>
             </Flex>
         </Flex>
     </NativeBaseProvider>

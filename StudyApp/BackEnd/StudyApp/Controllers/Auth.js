@@ -14,7 +14,8 @@ class AuthController extends Controller{
      */
     registration()
     {
-        this.db().query(
+        let connection = this.db()
+        connection.query(
         `
             INSERT INTO users(device_id) VALUES(${mysql.escape(this.#deviceId)})
         `,
@@ -24,9 +25,7 @@ class AuthController extends Controller{
         }
         )
         this.#jwt = jwt.sign(encrypt(JSON.stringify({ deviceId: this.#deviceId })), process.env.JWT_TOKEN,{expiresIn : 86400}); //24h
-        
-
-
+        connection.end()
     }
 
     /**
@@ -37,11 +36,13 @@ class AuthController extends Controller{
     async login(deviceId)
     {
         this.#deviceId = deviceId
-        const results = await this.db().promise().query(
+        let connection = this.db()
+        const results = await connection.promise().query(
             `
              SELECT * FROM users WHERE device_id = ${mysql.escape(this.#deviceId)};
             `
         )
+        connection.end()
         if(results[0].length !== 0)
         {
             if(results[0][0])

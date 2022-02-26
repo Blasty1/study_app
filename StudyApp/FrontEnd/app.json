@@ -1,21 +1,43 @@
 {
   "expo": {
-    "name": "StudyApp",
-    "slug": "StudyApp",
+    "name": "FocusStudy",
+    "slug": "FocusStudy",
     "version": "1.0.0",
+    "icon" : "./main/assets/images/icons/icona.png",
+    "notification":{
+      "icon":"./main/assets/images/icons/icona.png"
+    },
     "assetBundlePatterns": [
       "**/*"
     ],
     "android": {
-      "package": "com.bryan2028.StudyApp"
+      "package": "com.bryan2028.StudyApp",
+      "googleServicesFile": "./google-services.json"
     },
     "ios": {
       "bundleIdentifier": "com.bryan2028.StudyApp",
+      "googleServicesFile": "./GoogleService-Info.plist",
       "infoPlist": {
         "UIBackgroundModes": [
           "audio"
         ]
       }
+    },
+    "web": {
+      "favicon" : "./main/assets/images/icons/icona.png",
+      "config": {
+        "firebase": {
+          "apiKey": "AIzaSyDT_z2AFegjnA5i-rKUJeivOGoL2LOmNLo",
+          "measurementId": "G-GV48FW8H2D",
+          "appId" : "1:1062085296108:web:d1d83ab2791fb400c0cac9",
+          "projectId" : "studyapp-104c9"
+        }
+      }
+    },
+    "splash": {
+      "image": "./main/assets/images/icons/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#FFFFFF"
     }
   },
   "name": "StudyApp"

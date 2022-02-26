@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1062085296108",
+    "project_id": "studyapp-104c9",
+    "storage_bucket": "studyapp-104c9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1062085296108:android:c272234bbaf4edebc0cac9",
+        "android_client_info": {
+          "package_name": "com.bryan2028.StudyApp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1062085296108-n7pm83ojng1ebji5funcma26ec2fh7mj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyATPMJotIJ8ahHVzNzVEICXqhxsW49qiBs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1062085296108-n7pm83ojng1ebji5funcma26ec2fh7mj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

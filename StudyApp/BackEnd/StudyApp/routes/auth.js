@@ -6,8 +6,7 @@ var router = express.Router();
 /* GET users listing. */
 router.post('/login', function(req, res, next) {
     const auth = new AuthController
-    auth.login(req.body.deviceID).then(() => res.json(auth.jwt()))
-    
+    auth.login(req.body.deviceID).then(() => res.status(200).json(auth.jwt()))
 });
 
 module.exports = router;

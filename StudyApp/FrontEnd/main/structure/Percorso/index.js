@@ -11,6 +11,7 @@ import { Audio } from 'expo-av';
 import { allowOrDenySound, startSound, stopSound, checkIfUserWantsSound, checkIfUserWantsVibration } from "_helper/Sound";
 import { isModalitaIntensivaActived } from "_helper/ModalitaIntensiva";
 import * as Notifications from "expo-notifications";
+import * as Analytics from 'expo-firebase-analytics'; 
 
 
 export default function Percorso({ route, navigation }) {
@@ -37,12 +38,12 @@ export default function Percorso({ route, navigation }) {
         },[isStarted])
         useEffect(() => {
         const subscription = AppState.addEventListener("change",async (nextAppState) => {
+            
             if(nextAppState == 'active')
             {
                 await stopSound(soundModalitaIntensiva.current,soundModalitaIntensiva.current)
     
             }
-            console.log('prima: ' + appState.current,'dopo: ' + nextAppState)
             if ( appState.current == 'active' && nextAppState != "active") 
             {
                 if(await isModalitaIntensivaActived() && timerActives.current)
@@ -69,6 +70,9 @@ export default function Percorso({ route, navigation }) {
                         soundModalitaIntensiva.current = sound
                         await soundModalitaIntensiva.current.setIsLoopingAsync(true)
                     }      
+                    await Analytics.logEvent('uscita_dall_app', {
+                        etichetta_scelta : route.params.etichetta.id_etichetta
+                      });
                     await startSound(soundModalitaIntensiva.current,soundModalitaIntensiva.current)
                 }
 
@@ -106,6 +110,10 @@ export default function Percorso({ route, navigation }) {
   
       async function stopTimer() {
         if (timer == route.params.etichetta.minuti) {
+            Analytics.logEvent('task_terminata', {
+                minuti_totali : route.params.etichetta.minuti,
+                etichetta_scelta : route.params.etichetta.id_etichetta
+              });
             clearInterval(idInterval)
             savePercorso()
             if(await checkIfUserWantsVibration())
@@ -130,6 +138,13 @@ export default function Percorso({ route, navigation }) {
         }
         if (!isStarted) {
             startSound(thereIsMusic,sound)
+            if(timer == 0)
+            {
+                Analytics.logEvent('task_iniziata', {
+                    etichetta_scelta : route.params.etichetta.id_etichetta,
+                    minuti : route.params.etichetta.minuti
+                  });
+            }
             //update timer each 0.5 minute 30000
             setIdInterval(setInterval(() => addingMinutes(), 30000))
         } else {

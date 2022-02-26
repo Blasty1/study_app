@@ -67,6 +67,7 @@ export default function Impostazioni({ navigation }) {
                                         <Flex flex={0.7}>
                                             <Button background={'ten.500'} width={'100%'} mb={1}><Link href="https://www.freepik.com/upklyak" isExternal><Text color={'white'} textAlign={'center'}>Designed By Freepik ( Upklyak )</Text></Link></Button>
                                             <Button background={'ten.500'} width={'100%'} mb={1}><Link href="https://www.freepik.com/vectorpocket" isExternal><Text color={'white'} textAlign={'center'}>Designed By Freepik ( Vectorpocket )</Text></Link></Button>
+                                            <Button background={'ten.500'} width={'100%'} mb={1}><Link href="https://www.pinterest.it/pin/516928863465092585/" isExternal><Text color={'white'} textAlign={'center'}>Pinterest</Text></Link></Button>
                                         </Flex>
                                     </Flex>
                                     <Flex mt={2} flexDirection={'row'} justifyContent='space-between' alignItems={'center'}>

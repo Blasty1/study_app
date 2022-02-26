@@ -33,7 +33,7 @@ const costanti_globali = {
 
         }
     ],
-    'backend_link' : 'http://localhost:3000/',
+    'backend_link' : 'https://studyappapi.herokuapp.com/',
     'max_time' : 90, //in minuti
 
 }

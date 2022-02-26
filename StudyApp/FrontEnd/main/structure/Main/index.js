@@ -8,8 +8,8 @@ import {themeGlobal}  from '_config/style';
 import { getEtichette } from '_helper/etichette';
 import { login } from '../../helper/Auth';
 
-
 export default function Main({navigation}){
+
     const [etichette,setEtichette] = useState([])
     const [etichettaScelta,setEtichettaScelta] = useState({id : ''})
     const [modalNuovaEtichetta,setModalNuovaEtichetta] = useState(false)
