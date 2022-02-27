@@ -3,13 +3,13 @@ App for students to concentrate and to focus on what to do.
 # Tecnologies 
 - React Native
 - NativeBase
+- Node.js ( Express ) ( To handle backend with routes and middlewares)
 - Async Storage
 - React-native-circular-slider
 - React-native-svg
 - Validator ( to validate input )
 - Sanitize ( to sanitize input preventing sql inectjon)
 - Uuid ( to create unique id )
-- Express ( backend Node.js )
 - JWT ( to handle the comunication between backEnd and frontEnd )
 - Dotenv ( to handle file .env used for db credentials )
 - Firebase ( to get the analytics )
