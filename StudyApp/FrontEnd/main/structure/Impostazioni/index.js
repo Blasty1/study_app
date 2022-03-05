@@ -31,7 +31,7 @@ export default function Impostazioni({ navigation }) {
     useEffect(async () =>changeMusicPreferenze(music),[music])
     useEffect(async () => changeModalitaIntensiva(intensiva),[intensiva])
     return (
-        <NativeBaseProvider theme={extendTheme(themeGlobal)}>
+        <NativeBaseProvider flex={1} theme={extendTheme(themeGlobal)}>
             <Flex flex={1} background={'ten.100'}>
                 <Flex flex={0.3} alignItems='center' justifyContent={'center'} flexDirection={'row'}>
                     <Icon name='chevron-left' size={40} color={'white'} style={{ position: 'absolute', left: 0 }} onPress={() => navigation.navigate('Main')}></Icon>

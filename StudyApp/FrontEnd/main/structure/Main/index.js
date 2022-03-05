@@ -27,7 +27,7 @@ export default function Main({navigation}){
         flexValueHeader = 0.7
     }
     return (
-    <NativeBaseProvider theme={extendTheme(themeGlobal)}>
+    <NativeBaseProvider flex={1} theme={extendTheme(themeGlobal)}>
         <Flex flex={1} overflow={'hidden'}>
             <Flex flex={0.5}>
                 <Flex flex={1 - flexValueHeader} background={'sixty.600'} pl={2} direction="row" pt={9} justify={'space-between'} alignItems='center'>

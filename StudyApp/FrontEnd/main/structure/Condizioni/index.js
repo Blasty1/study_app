@@ -13,7 +13,7 @@ import { TACP } from './termsAndConditions';
 export default function Condizioni({navigation})
 {
     return (
-    <NativeBaseProvider theme={extendTheme(themeGlobal)}>
+    <NativeBaseProvider flex={1} theme={extendTheme(themeGlobal)}>
         <ScrollView p={10}>
         <RenderHtml
             contentWidth={Dimensions.get('window').width}

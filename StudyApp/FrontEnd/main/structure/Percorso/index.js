@@ -12,6 +12,7 @@ import { allowOrDenySound, startSound, stopSound, checkIfUserWantsSound, checkIf
 import { isModalitaIntensivaActived } from "_helper/ModalitaIntensiva";
 import * as Notifications from "expo-notifications";
 import * as Analytics from 'expo-firebase-analytics'; 
+var moment = require('moment');
 
 
 export default function Percorso({ route, navigation }) {
@@ -23,6 +24,7 @@ export default function Percorso({ route, navigation }) {
     const [thereIsMusic,setMusic]  = useState(() => checkIfUserWantsSound())
     const [sound, setSound] = useState(); 
     const timerActives = useRef(false)
+    const [timerBackground,setTimerBackground] = useState(0)
     const appState = useRef(AppState.currentState);
     const soundModalitaIntensiva = useRef()
 
@@ -41,11 +43,27 @@ export default function Percorso({ route, navigation }) {
             
             if(nextAppState == 'active')
             {
+                if(timerBackground)
+                {
+                    const difference_minutes =  timer + moment().diff(timerBackground.minutes(),'minutes') > route.params.etichetta.minuti ? route.params.etichetta.minuti : moment().diff(timerBackground.minutes(),'minutes')
+                
+                    setTimer(difference_minutes)
+                    setTimerBackground(0)
+                    await saveLocally(route.params.etichetta,difference_minutes,idPercorso).then().catch(error => console.log(error))
+                }
+                
                 await stopSound(soundModalitaIntensiva.current,soundModalitaIntensiva.current)
     
             }
             if ( appState.current == 'active' && nextAppState != "active") 
             {
+                if(isStarted)
+                {
+                    if(!timerBackground)
+                    {
+                        setTimerBackground(moment().date())
+                    }
+                }
                 if(await isModalitaIntensivaActived() && timerActives.current)
                 {
                     await Notifications.scheduleNotificationAsync({
@@ -109,20 +127,27 @@ export default function Percorso({ route, navigation }) {
       }, [sound]);
   
       async function stopTimer() {
-        if (timer == route.params.etichetta.minuti) {
+        if (timer >= route.params.etichetta.minuti) {
+            if(timer != route.params.etichetta.minuti)
+            {
+                
+            }
             Analytics.logEvent('task_terminata', {
                 minuti_totali : route.params.etichetta.minuti,
                 etichetta_scelta : route.params.etichetta.id_etichetta
               });
             clearInterval(idInterval)
+            await stopSound(thereIsMusic,sound)
             savePercorso()
             if(await checkIfUserWantsVibration())
             {
-                Vibration.vibrate()
+                Vibration.vibrate(1000)
             }
             getStarted(!isStarted)
             setTimeout(() => {setTimer(0) },10000)
-            stopSound(thereIsMusic,sound)
+            // bug della libreria, devi necessariamente utilizzare la variabile sound affinche funzioni, quindi creo una copia in locale ( malgrado vada a ricalcare la variabile globale sound della funzione )
+            const {sound} = await Audio.Sound.createAsync(require('_assets/sounds/fine_percorso.mp3'));
+            sound.playAsync()
         }
 
     }

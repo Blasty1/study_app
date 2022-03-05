@@ -30,7 +30,7 @@ export default function Home({navigation})
         navigation.navigate('Main')
     }
     return (
-    <NativeBaseProvider theme={extendTheme(themeGlobal)}>
+    <NativeBaseProvider flex={1} theme={extendTheme(themeGlobal)}>
         <Flex flex={1} background={width_schermo}>
             <Center flex={0.4}>
                 <Text fontSize="6xl" mt={35} color={'white'} fontFamily="Rowdies">FocuStudy</Text>
