@@ -1,4 +1,4 @@
-import { extendTheme, NativeBaseProvider, Flex, Text, Box, Switch, Hidden, Link, Button, ScrollView } from "native-base"
+import { extendTheme, NativeBaseProvider, Flex, Text, Box, Switch, Hidden, Link, Button, ScrollView, StatusBar } from "native-base"
 import React, {useEffect, useState} from 'react'
 import Title from "_components/Title";
 import Icon from 'react-native-vector-icons/Feather';
@@ -32,6 +32,7 @@ export default function Impostazioni({ navigation }) {
     useEffect(async () => changeModalitaIntensiva(intensiva),[intensiva])
     return (
         <NativeBaseProvider flex={1} theme={extendTheme(themeGlobal)}>
+            <StatusBar backgroundColor="#fda544" barStyle='light-content' />
             <Flex flex={1} background={'ten.100'}>
                 <Flex flex={0.3} alignItems='center' justifyContent={'center'} flexDirection={'row'}>
                     <Icon name='chevron-left' size={40} color={'white'} style={{ position: 'absolute', left: 0 }} onPress={() => navigation.navigate('Main')}></Icon>

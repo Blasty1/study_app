@@ -9,7 +9,7 @@ import {
     Button,
   } from 'native-base';
 import {themeGlobal} from '_config/style';
-import { Dimensions, Pressable } from 'react-native';
+import { Dimensions, Pressable, StatusBar } from 'react-native';
 
 export default function Home({navigation})
 {
@@ -18,7 +18,7 @@ export default function Home({navigation})
         flex : 1
     }
     const windowWidth = Dimensions.get('window').width;
-    let width_schermo = 'sixty.100'
+    let width_schermo = '#71a9ff'
     if(windowWidth >  900 )
     {
         width_schermo = '#8ABDFF'
@@ -31,6 +31,7 @@ export default function Home({navigation})
     }
     return (
     <NativeBaseProvider flex={1} theme={extendTheme(themeGlobal)}>
+        <StatusBar backgroundColor={width_schermo} barStyle='light-content' />
         <Flex flex={1} background={width_schermo}>
             <Center flex={0.4}>
                 <Text fontSize="6xl" mt={35} color={'white'} fontFamily="Rowdies">FocuStudy</Text>

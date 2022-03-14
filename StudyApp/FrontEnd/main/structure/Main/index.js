@@ -1,4 +1,4 @@
-import { NativeBaseProvider,Flex,Image,Text,extendTheme,Box } from 'native-base'
+import { NativeBaseProvider,Flex,Image,Text,extendTheme,Box, StatusBar } from 'native-base'
 import React,{useEffect, useState} from 'react'
 import { Dimensions } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
@@ -28,6 +28,7 @@ export default function Main({navigation}){
     }
     return (
     <NativeBaseProvider flex={1} theme={extendTheme(themeGlobal)}>
+        <StatusBar backgroundColor="#70DFCE" barStyle='light-content' />
         <Flex flex={1} overflow={'hidden'}>
             <Flex flex={0.5}>
                 <Flex flex={1 - flexValueHeader} background={'sixty.600'} pl={2} direction="row" pt={9} justify={'space-between'} alignItems='center'>

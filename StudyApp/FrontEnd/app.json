@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Focus Study",
-    "slug": "Focus Study",
+    "name": "FocuStudy",
+    "slug": "FocuStudy",
     "version": "1.0.0",
     "icon" : "./main/assets/images/icons/icona.png",
     "notification":{

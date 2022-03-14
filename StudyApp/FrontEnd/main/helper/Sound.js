@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as Notifications from "expo-notifications";
 import { Audio } from 'expo-av';
 
 /**
@@ -31,7 +32,7 @@ async function stopSound(thereIsMusic,soundObject)
  * @param {function} setMusic 
  * @param {Audio} soundObject 
  */
-async function allowOrDenySound(thereIsMusic,setMusic,soundObject)
+async function allowOrDenySound(thereIsMusic,setMusic,soundObject,isStartedTimer)
 {
         if(! await checkIfUserWantsSound())
         {
@@ -41,10 +42,35 @@ async function allowOrDenySound(thereIsMusic,setMusic,soundObject)
         {
             soundObject.stopAsync()
         }else{
-            soundObject.playAsync()
+            if(isStartedTimer)
+            {
+                soundObject.playAsync()
+            }
         }
         setMusic(!thereIsMusic)
 
+}
+
+async function alertUser()
+{
+    await Audio.setAudioModeAsync({
+        staysActiveInBackground: true,
+        interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
+        shouldDuckAndroid: false,
+        playThroughEarpieceAndroid: false,
+        allowsRecordingIOS: false,
+        interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
+        playsInSilentModeIOS: true,
+      });
+    const {sound} = await Audio.Sound.createAsync(require('_assets/sounds/fine_percorso.mp3'));
+    await Notifications.scheduleNotificationAsync({
+        content: {
+          title: "Percorso Completato",
+          body: 'Avanti il prossimo',
+        },
+        trigger: { seconds: 1 },
+    })
+    await startSound(true,sound);
 }
 /**
  * If there is a changing , we update using asyncStorage
@@ -94,4 +120,4 @@ async function checkIfUserWantsVibration()
 
  }
  
-export {startSound,stopSound,allowOrDenySound, checkIfUserWantsSound , changeMusicPreferenze ,changeVibrationPreferenze , checkIfUserWantsVibration}
+export {startSound,stopSound,allowOrDenySound,alertUser, checkIfUserWantsSound , changeMusicPreferenze ,changeVibrationPreferenze , checkIfUserWantsVibration}
