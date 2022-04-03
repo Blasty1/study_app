@@ -34,7 +34,7 @@ export default function Home({navigation})
         <StatusBar backgroundColor={width_schermo} barStyle='light-content' />
         <Flex flex={1} background={width_schermo}>
             <Center flex={0.4}>
-                <Text fontSize="6xl" mt={35} color={'white'} fontFamily="Rowdies">FocuStudy</Text>
+                <Text fontSize="6xl" mt={35} color={'white'} fontFamily="Rowdies">Focus Study</Text>
                 <Text fontSize="sm" color={'white'}>Focus on what matters</Text>
                 <Button borderRadius="md" shadow={'3'} width="60%" mt={10} background={'sixty.500'}  onPress={main}><Text fontSize="xl" color={'sixty.100'} fontFamily="Rowdies">Start</Text></Button>
             </Center>

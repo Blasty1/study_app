@@ -122,7 +122,7 @@ export default function Percorso({ route, navigation }) {
                 Vibration.vibrate(1000)
             }
             getStarted(!isStarted)
-            setTimeout(() => {setTimer(0) },10000)
+
             // bug della libreria, devi necessariamente utilizzare la variabile sound affinche funzioni, quindi creo una copia in locale ( malgrado vada a ricalcare la variabile globale sound della funzione )
             await alertUser()
         }
